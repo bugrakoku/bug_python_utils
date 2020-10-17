@@ -1,4 +1,4 @@
-def MatPrint(M):
+def MatPrint(M, message):
   '''
   this fuction accepts a variable M, expected to be in the form of np.array 
   and prints it more like a matrix
@@ -10,6 +10,8 @@ def MatPrint(M):
       print('this function is not meant to print 2D arrays')
       print('just use regular print()')
     else:
+      # first print the message that is expected to say something about the content of the matrix
+      print(message)
       for r in range(M.ndim): # go over each dimension, i.e. 1 or 2 :)
         spc = ' '
         sep = '|'
