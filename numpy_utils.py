@@ -1,4 +1,4 @@
-def MatPrint(M, message):
+def MatPrint(M, message='Matrix:'):
   '''
   this fuction accepts a variable M, expected to be in the form of np.array 
   and prints it more like a matrix
