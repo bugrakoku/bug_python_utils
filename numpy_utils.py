@@ -1,4 +1,4 @@
-def MatPrint(M, message='Matrix:'):
+def MatPrint(M, message = 'Matrix:'):
   '''
   this fuction accepts a variable M, expected to be in the form of np.array 
   and prints it more like a matrix
@@ -6,17 +6,16 @@ def MatPrint(M, message='Matrix:'):
     digit size is currently fixed to 8, therefore it will not show arrays with long numbers properly
   '''
   try:
-    if M.ndim != 2: # we cannot print this properly
-      print('this function is not meant to print 2D arrays')
-      print('just use regular print()')
-    else:
-      # first print the message that is expected to say something about the content of the matrix
+    if M.ndim != 2: # this function is meant to print only 2D arrays, if not 2D just print it
       print(message)
-      for r in range(M.ndim): # go over each dimension, i.e. 1 or 2 :)
-        spc = ' '
-        sep = '|'
+      print(M)
+    else:
+      print(message)
+      spc = ' '
+      sep = '|'
+      for r in M: # go over each row, i.e. 1 and 2 :)
         res = sep + spc
-        for d in M[r]: # go over each element
+        for d in r: # go over each element in the current row
           res= res+ '{:8.2f}'.format(d) + spc
         res = res + sep 
         print(res)
