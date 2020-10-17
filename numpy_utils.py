@@ -2,6 +2,8 @@ def MatPrint(M):
   '''
   this fuction accepts a variable M, expected to be in the form of np.array 
   and prints it more like a matrix
+  Potential future work:
+    digit size is currently fixed to 8, therefore it will not show arrays with long numbers properly
   '''
   try:
     if M.ndim != 2: # we cannot print this properly
