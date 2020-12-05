@@ -89,6 +89,7 @@ def MatImshow(img, showImage = True, title='Matrix as Image', UseMatplot = True)
     if showImage:
         if UseMatplot:
             plt.imshow(resImg, cmap=plt.get_cmap("gray"))
+            plt.title(title)
             plt.axis('off')
             plt.show()
         else: # use plotly
