@@ -34,13 +34,28 @@ import matplotlib.pyplot as plt
 from scipy.linalg import orth
 from sklearn.preprocessing import normalize
 import plotly.express as px
+import plotly.graph_objects as go
 
-def MatImshow(img, showImage = True):
+def DebugPrint(mess, gottaPrint=False):
+    '''
+    this is seemingly stupid function but important during debugging
+    the passed message is printed if gottaPrint variable is set to True
+    else nothing happens, by default nothing happens... 
+    how painfully useless feels this function
+    '''
+    if gottaPrint:
+        print(mess)
+
+
+
+def MatImshow(img, showImage = True, title='Matrix as Image', UseMatplot = True):
     '''
     this function accepts a matrix and treats it as an image
     those matrices that are smaller in size do not look good as an image
     this function scales the images up so that they can be viewed as images
     where the pixels become larger squares
+    Resulting image is shown by default, if this is not desired set showImage to False
+    Resulting image is shown by Matplotlib by default, if plotly is desired, set UseMatplot to False
     '''
     # start with an empty array
     resImg = np.array([])
@@ -72,8 +87,13 @@ def MatImshow(img, showImage = True):
             print('RGB images are not implemented yet :(')
     # display if needed
     if showImage:
-        plt.imshow(resImg, cmap=plt.get_cmap("gray"))
-        plt.show()
+        if UseMatplot:
+            plt.imshow(resImg, cmap=plt.get_cmap("gray"))
+            plt.axis('off')
+            plt.show()
+        else: # use plotly
+            fig = px.imshow(resImg, color_continuous_scale='gray')
+            fig.show()
     return resImg # anyway
 
 def MatPrint(M, message = 'Matrix:'):
