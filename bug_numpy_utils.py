@@ -89,15 +89,15 @@ def MatImshow(img, showImage = True, title='Matrix as Image', UseMatplot = True)
     if showImage:
         if UseMatplot:
             plt.imshow(resImg, cmap=plt.get_cmap("gray"))
-            plt.title(title)
             plt.axis('off')
+            plt.title(title)
             plt.show()
         else: # use plotly
             fig = px.imshow(resImg, color_continuous_scale='gray')
             fig.show()
     return resImg # anyway
 
-def MatPrint(M, message = 'Matrix:'):
+def MatPrint(M, title = 'Matrix:'):
     '''
     this fuction accepts a variable M, expected to be in the form of np.array 
     and prints it more like a matrix
@@ -107,10 +107,10 @@ def MatPrint(M, message = 'Matrix:'):
     # please do not crash
     try:
         if M.ndim != 2: # this function is meant to print only 2D arrays, if not 2D just print it
-            print(message)
+            print(title)
             print(M)
         else:
-            print(message)
+            print(title)
             spc = ' '
             sep = '|'
             for r in M: # go over each row, i.e. 1 and 2 :)
