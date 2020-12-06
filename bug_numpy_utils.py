@@ -48,7 +48,7 @@ def DebugPrint(mess, gottaPrint=False):
 
 
 
-def MatImshow(img, showImage = True, title='Matrix as Image', UseMatplot = True):
+def MatImshow(img,  title='Matrix as Image', showImage = True, UseMatplot = True):
     '''
     this function accepts a matrix and treats it as an image
     those matrices that are smaller in size do not look good as an image
