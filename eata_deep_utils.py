@@ -1,3 +1,14 @@
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.callbacks import LambdaCallback, Callback
+from keras.optimizers import Adam
+from sklearn.model_selection import train_test_split
+from keras.callbacks import EarlyStopping
+from keras.models import clone_mode
+
 def get_unit_vectors(number, dimension): # Distribution is not uniform
   r = (np.random.rand(number, dimension) - 0.5)*2
   long_ones = np.linalg.norm(r, axis = 1) > 1
