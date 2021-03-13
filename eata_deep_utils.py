@@ -7,7 +7,7 @@ from keras.callbacks import LambdaCallback, Callback
 from keras.optimizers import Adam
 from sklearn.model_selection import train_test_split
 from keras.callbacks import EarlyStopping
-from keras.models import clone_mode
+from keras.models import clone_model
 
 def get_unit_vectors(number, dimension): # Distribution is not uniform
   r = (np.random.rand(number, dimension) - 0.5)*2
