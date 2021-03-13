@@ -145,7 +145,7 @@ def get_weight_history(XTraining, XValidation, YTraining, YValidation, model, ba
     else:
       count = 0
     if count == in_a_row:
-      print(f"Terminated in {i} epochs.")
+      print(f"Terminated in {i+1} epochs.")
       return weights, biases, losses
 
   return [], [], []  
@@ -174,10 +174,10 @@ def get_matrix_multiple_networks(num_of_networks, num_of_points, XTraining, XVal
   for i in range(num_of_networks):
     model = get_model(inp_dim = inp_dim, num_of_classes = num_of_classes, num_of_cells = num_of_cells)
     weights, biases, losses = get_weight_history(XTraining, XValidation, YTraining, YValidation, model, batch_size=batch_size, epochs=epochs, in_a_row=in_a_row, limit = limit)
-    print(f"Length of weights list is {len(weights)}")
+    #print(f"Length of weights list is {len(weights)}")
     weights, biases, losses = weights[-num_of_points:], biases[-num_of_points:], losses[-num_of_points:]
     vec = vectorize_parameters(weights, biases, losses)
-    print(f"Vector shape of {i}th model is {vec.shape}")
+    #print(f"Vector shape of {i}th model is {vec.shape}")
     if isinstance(matrix, type(None)):
       matrix = vec
     else:
