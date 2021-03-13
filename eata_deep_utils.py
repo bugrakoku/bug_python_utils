@@ -122,7 +122,8 @@ def get_weight_history(XTraining, XValidation, YTraining, YValidation, model, ba
   biases = []
   losses = []
 
-  weight_callback = LambdaCallback(on_batch_end = lambda epoch, logs: store_weights(weights, biases, logs["loss"]))
+  store_weights(weights, biases, [1e3])
+  weight_callback = LambdaCallback(on_train_batch_end = lambda epoch, logs: store_weights(weights, biases, logs["loss"]))
 
   count = 0
   for i in range(epochs):
@@ -136,8 +137,7 @@ def get_weight_history(XTraining, XValidation, YTraining, YValidation, model, ba
       print(f"Terminated in {i} epochs.")
       return weights, biases, losses
 
-  return [], [], [] 
-
+  return [], [], []  
 
 def vectorize_parameters(weights, biases, losses):
   """
@@ -163,10 +163,13 @@ def get_matrix_multiple_networks(num_of_networks, num_of_points, XTraining, XVal
   for i in range(num_of_networks):
     model = get_model(inp_dim = dimensions, num_of_classes = num_of_classes, num_of_cells = num_of_cells)
     weights, biases, losses = get_weight_history(XTraining, XValidation, YTraining, YValidation, model, batch_size=batch_size, epochs=epochs, in_a_row=in_a_row, limit = limit)
+    print(f"Length of weights list is {len(weights)}")
     weights, biases, losses = weights[-num_of_points:], biases[-num_of_points:], losses[-num_of_points:]
     vec = vectorize_parameters(weights, biases, losses)
+    print(f"Vector shape of {i}th model is {vec.shape}")
     if isinstance(matrix, type(None)):
-      matrix = np.empty(shape = (vec.shape[0], vec.shape[1]*num_of_networks))
-    matrix[0:vec.shape[0], vec.shape[1]*i:vec.shape[1]*(i+1)] = vec
-  return matrix
+      matrix = vec
+    else:
+      matrix = np.concatenate((matrix, vec), axis = 1)
 
+  return matrix
