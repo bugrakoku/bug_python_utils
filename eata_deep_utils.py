@@ -173,14 +173,12 @@ def get_matrix_multiple_networks(num_of_networks, num_of_points, XTraining, XVal
   """
   matrix = None
   for i in range(num_of_networks):
-    model = get_model(inp_dim = dimensions, num_of_classes = num_of_classes, num_of_cells = num_of_cells)
+    model = get_model(inp_dim = inp_dim, num_of_classes = num_of_classes, num_of_cells = num_of_cells)
     weights, biases, losses = get_weight_history(XTraining, XValidation, YTraining, YValidation, model, batch_size=batch_size, epochs=epochs, in_a_row=in_a_row, limit = limit)
     if weights == -1:
       continue
-    print(f"Length of weights list is {len(weights)}")
     weights, biases, losses = weights[-num_of_points:], biases[-num_of_points:], losses[-num_of_points:]
     vec = vectorize_parameters(weights, biases, losses, i)
-    print(f"Vector shape of {i}th model is {vec.shape}")
     if isinstance(matrix, type(None)):
       matrix = vec
     else:
