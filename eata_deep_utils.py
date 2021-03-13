@@ -148,9 +148,9 @@ def get_weight_history(XTraining, XValidation, YTraining, YValidation, model, ba
       print(f"Terminated in {i+1} epochs.")
       return weights, biases, losses
 
-  return [], [], []  
+  return -1, -1, -1
 
-def vectorize_parameters(weights, biases, losses):
+def vectorize_parameters(weights, biases, losses, id):
   """
   This function takes weights, biases, and losses and returns a vector.
   """
@@ -162,6 +162,7 @@ def vectorize_parameters(weights, biases, losses):
     for b in bias:
       column = np.append(column, b.flatten())
     column = np.append(column, [loss])
+    column = np.append(column, [id])
     columns.append(column)
   return np.array(columns).T
 
@@ -172,12 +173,14 @@ def get_matrix_multiple_networks(num_of_networks, num_of_points, XTraining, XVal
   """
   matrix = None
   for i in range(num_of_networks):
-    model = get_model(inp_dim = inp_dim, num_of_classes = num_of_classes, num_of_cells = num_of_cells)
+    model = get_model(inp_dim = dimensions, num_of_classes = num_of_classes, num_of_cells = num_of_cells)
     weights, biases, losses = get_weight_history(XTraining, XValidation, YTraining, YValidation, model, batch_size=batch_size, epochs=epochs, in_a_row=in_a_row, limit = limit)
-    #print(f"Length of weights list is {len(weights)}")
+    if weights == -1:
+      continue
+    print(f"Length of weights list is {len(weights)}")
     weights, biases, losses = weights[-num_of_points:], biases[-num_of_points:], losses[-num_of_points:]
-    vec = vectorize_parameters(weights, biases, losses)
-    #print(f"Vector shape of {i}th model is {vec.shape}")
+    vec = vectorize_parameters(weights, biases, losses, i)
+    print(f"Vector shape of {i}th model is {vec.shape}")
     if isinstance(matrix, type(None)):
       matrix = vec
     else:
