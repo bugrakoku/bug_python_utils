@@ -1,13 +1,13 @@
-  def get_unit_vectors(number, dimension): # Distribution is not uniform
-    r = (np.random.rand(number, dimension) - 0.5)*2
+def get_unit_vectors(number, dimension): # Distribution is not uniform
+  r = (np.random.rand(number, dimension) - 0.5)*2
+  long_ones = np.linalg.norm(r, axis = 1) > 1
+  while np.sum(long_ones):
+    r[long_ones] = np.random.rand(np.sum(long_ones), dimension)
     long_ones = np.linalg.norm(r, axis = 1) > 1
-    while np.sum(long_ones):
-      r[long_ones] = np.random.rand(np.sum(long_ones), dimension)
-      long_ones = np.linalg.norm(r, axis = 1) > 1
 
-    for v in r:
-      v /= np.linalg.norm(v)
-    return r
+  for v in r:
+    v /= np.linalg.norm(v)
+  return r
 
 
 def get_line_data(num_of_lines = 2, dimensions = 3, segment_length_limits = (2, 10), displacement_length_limits = (0, 3), min_max_points = (50, 100), noise_magnitude = 0.1, show = True):
