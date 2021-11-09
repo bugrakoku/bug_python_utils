@@ -187,28 +187,4 @@ def DataFromUnionOfSubspaces(d=3,D=[1,2], N=[20,200], data_scaler=1, normal_data
     the function will return M such that
     M is 5x500 (200 points in the first 2D subspace, and 300 in the second)
     '''
-    M = np.empty((d,0)) # start with an empty matrix or proper number of rows and 0 columns!
-    # data can be randomly selected from
-    try: 
-        if normal_data:
-            genData = np.random.randn
-        else:
-            genData = np.random.rand
-        # let's start with loose checks - 
-        # i.e. we will not check for independce and discoverability, that's up to the user
-      
-        if d >= max(D) and len(D) == len(N): # we are good to go
-            # let's go over the element in D
-            for i, Sdim in enumerate(D):  # go over subspace dimensions and add data to M
-                # generate basis and normalize it
-                B = genData(d,Sdim) * data_scaler
-                B = normalize(B, axis=0, norm='l2')
-                # generate data using B
-                R = np.matmul(B, genData(Sdim, N[i]))
-                # append new data as columns to M
-                M = np.append(M, R, axis=1)
-        # we should be done, return M
-        return M
-    except:
-        print('crash and burn experienced in DataFromUnionOfSubspaces... go figure')
-        return
+    pass
