@@ -16,7 +16,7 @@ from skimage import io
 import random
 import matplotlib.pyplot as plt
 
-def Shapes(imSize=[480,640]):
+def Shapes(jpgNoise=False):
     '''
     This function generates a 640x480 color image by default
     Places shapes at random in this image with random colors
@@ -26,12 +26,26 @@ def Shapes(imSize=[480,640]):
         rectangle
         square
         frame (a rectangle with a rectangular hole)
+    if jpgNoise is False, no noise will be added, if True
+    quality will be used, the lower the quality towards 1, to harder the problem will be
+    '''
+    imSize = [480, 640]
+    Imquality = 35
+    #a minimum image size of 300 is assumed
     '''
     minsize = 300
     if imSize[0] < minsize:
         imSize[0] = minsize
     if imSize[1] < minsize:
         imSize[1] = minsize
+    
+    # impose bounds on quality if it will be used
+    if jpgNoise:
+        if Imquality < 1:
+            Imquality = 1
+        elif Imquality > 95:
+            Imquality = 95
+    '''
 
     def newShapeOK(lShapes,shape):
         '''
@@ -186,5 +200,9 @@ def Shapes(imSize=[480,640]):
                 #print(f'{shapeKey} located at {maybeShape}')
                 # 
                 break
+        if jpgNoise:
+            io.imsave('test.jpg', colorIm, quality = Imquality)
+            colorIm = io.imread('test.jpg')
+
 
     return colorIm, allShapes
