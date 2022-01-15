@@ -253,7 +253,7 @@ def aMaze():
           ej*step_size-hw:ej*step_size+hw,:] = GREEN
     # now return the dictionary of colors and random cost values
     valz = {}
-    costs = [3*x for x in range(1,len(colorz))]
+    costs = [2*x for x in range(1,len(colorz))]
     random.shuffle(costs)
     for i, clr in enumerate(colorz[:-1]):
         valz[f'color_{i+1}'] =(clr, costs[i]) 
