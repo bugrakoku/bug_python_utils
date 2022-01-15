@@ -107,11 +107,7 @@ def Shapes(jpgNoise=False):
         		(0,0,255),
         		(255,255,0),
         		(255,0,255),
-        		(0,255,255),
-        		(125,255,0),
-        		(255,125,0),
-        		(0,125,255),
-        		(0,255,125))
+        		(0,255,255))
         return random.choice(colorz)
 
     randrange = (20,30) # how many shapes will be generated
