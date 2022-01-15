@@ -202,3 +202,60 @@ def Shapes(jpgNoise=False):
 
 
     return colorIm, allShapes
+
+def aMaze():
+    '''
+    returns a different kind of a maze compozed of colored boxes with corridors in between
+    each color has a different difficulty level (or simply cost)
+    objective will be to find the cheapest solution from a GREEN box to a RED box, center to center
+    BLACK pixels are walls, solutions cannot pass through any BLACK pixel
+    the function returns a color image where all colors other than RED, GREEN and BLACK 
+    are returned in a dictionary which expalains which color costs how much
+    An entry in the dictionary looks like:
+        ((c1,c2,c3),cost_value)
+    where ci are color values for RGB
+    
+    '''
+    colorz = (
+            (255,255,255),
+            (0,0,150),
+            (150,150,0),
+            (150,0,150),
+            (0,150,150),
+            (222,55,222),
+            (0, 99, 55),
+            (0,0,0))
+    GREEN = (0,255,0)
+    RED = (255,0,0)
+
+    # maze parameters
+    imSize = 500
+    nCorr = 8
+    boxSize = 50
+    # derived variables
+    step_size = int(imSize/nCorr) # dist between rows and columns of boxes
+    hw = int(boxSize / 2) # half of a box not really need but anyway
+
+    cmask = np.ones((imSize,imSize,3), dtype=np.uint8) * 255 # mask is white
+
+    for i in range(1,nCorr):
+        for j  in range(1,nCorr):
+            # put a black box around (i,j)
+            cmask[i*step_size-hw:i*step_size+hw,
+                  j*step_size-hw:j*step_size+hw,:] = random.choice(colorz[1:]) 
+    # colored mask is generated, next generate the start and end boxes
+    si, sj = np.random.randint(1,int(nCorr/2)), np.random.randint(1,int(nCorr/2))
+    ei, ej = np.random.randint(int(nCorr/2),nCorr), np.random.randint(int(nCorr/2),nCorr)
+    # 
+    cmask[si*step_size-hw:si*step_size+hw,
+          sj*step_size-hw:sj*step_size+hw,:] = RED
+    cmask[ei*step_size-hw:ei*step_size+hw,
+          ej*step_size-hw:ej*step_size+hw,:] = GREEN
+    # now return the dictionary of colors and random cost values
+    valz = {}
+    costs = [3*x for x in range(1,len(colorz))]
+    random.shuffle(costs)
+    for i, clr in enumerate(colorz[:-1]):
+        valz[f'color_{i+1}'] =(clr, costs[i]) 
+
+    return cmask, valz
