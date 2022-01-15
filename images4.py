@@ -30,7 +30,7 @@ def Shapes(jpgNoise=False):
     quality will be used, the lower the quality towards 1, to harder the problem will be
     '''
     imSize = [480, 640]
-    Imquality = 35
+    Imquality = 25
     #a minimum image size of 300 is assumed
     '''
     minsize = 300
