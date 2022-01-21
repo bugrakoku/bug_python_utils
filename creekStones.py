@@ -1,14 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def randomColor():
-    colorz = ((255,0,0),
-            (0,255,0),
-            (0,0,255),
-            (255,255,0),
-            (255,0,255),
-            (0,255,255))
-    return random.choice(colorz)
 
 def randomCLR( red_range = (10,50), green_range = (110,160), blue_range = (200,250), iSize = None):
     if iSize is None:
@@ -35,8 +27,7 @@ def randomStone(sSize = (50,50), sigma = 0.5):
     gauss = np.exp(-( (dst-muu)**2 / ( 2.0 * sigma**2 ) ) )
     return gauss > np.random.rand(*sSize)
   
-  
-def creekImage(stoneP = 0.2):
+  def creekImage(stoneP = 0.2):
     if stoneP < 0:
         stoneP = 0.1
     elif stoneP > 1:
@@ -75,7 +66,7 @@ def creekImage(stoneP = 0.2):
     shoreP = np.linspace(0.1, 0.9, shoreW)
     for pind, pval in enumerate(shoreP): # a soft shore
         xval = np.array(np.where(shoreMask[creekW-pind,:]>pval))
-        creek[creekW-pind, xval,:] = randomBlue(xval.shape)
+        creek[creekW-pind, xval,:] = randomCLR(iSize = xval.shape)
         creek[imSize[0] + creekW + pind, xval,:] = randomCLR(iSize = xval.shape)
 
     return creek
