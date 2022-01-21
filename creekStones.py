@@ -27,7 +27,7 @@ def randomStone(sSize = (50,50), sigma = 0.5):
     gauss = np.exp(-( (dst-muu)**2 / ( 2.0 * sigma**2 ) ) )
     return gauss > np.random.rand(*sSize)
   
-  def creekImage(stoneP = 0.2):
+def creekImage(stoneP = 0.2):
     if stoneP < 0:
         stoneP = 0.1
     elif stoneP > 1:
