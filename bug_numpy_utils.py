@@ -163,6 +163,59 @@ def CData(M, A= None, title='Subspace Data', viewangles = (30, 45)):
     else:
         print('CData cannot manage to make you see the data... sorry...')
 
+def DataInSubspace(n=3,m=50, d=2, normal_dist = True):
+  '''
+  This function generates an nxm data matrix M, 
+  where columns of M come from d-dimensional subspace
+  Hence all parameters are expected to be positive where
+  n >= d 
+  and 
+  m >= d
+  Returns:
+    a numpy array of shape (n,m) if you passed proper parameters
+    [] if you passed improper set of parameters
+  '''
+  if normal_dist: # data will be drawn from a normal distribution
+    genData = np.random.randn
+  else: # data will be uniformly drawn from [0-1]
+    genData = np.random.rand
+  M = np.array([]) # let's start with an empty array
+  if isinstance(n,(int,float)) and isinstance(m,(int,float)) and isinstance(d,(int,float)): # they should also be meaningful in content
+    if n>0 and m>0 and d>0:
+      if d <= n: # almost there
+        if d <= m: # finally
+          '''
+          pay attention to the fact that meat of the code is here, rest is just safe guarding
+          eventough all of this part can be written in a single line statement let's go step by step
+          recall that our data points to live in a d-dimensional subpace 
+          where data points come from n-dimensional space
+          so let's generate a d-dimensional basis in n-dimensional space
+          '''
+          B = genData(n,d) # no more np.random.randn(n,d) or np.random.rand(n,d)
+          '''
+          due to the random nature of well, random, rank(B) should be d given that d<=n
+          however to dodge the bullet of an ill-conditioned data matrix, let's 
+          go for an orthogonal basis
+          at this point if you will feel better, you can check the rank of B 
+          and generate it again if rank is < d, but highly unlikely
+          now that B is not square in most cases, you cannot check the determinant
+          for ill-conditioned cases. Wait for SVD down the road!
+          '''
+          B = orth(B)
+          # finally, let's generate m-many data points using B as their basis
+          # now that question does not impose any norm on data, we will be happy with random
+          M = np.matmul(B, genData(d,m)) # no more np.random.randn(d,m) ... 
+          # note that you can also use rand function, what will change between randn and rand?
+        else:
+          print(f'Number of data should not be less than subspace dimension, othersise there is no way to define this subspace with that much data, check out the help:\n{DataInSubspace.__doc__}')
+      else:
+        print(f'Subspace dimension cannot be larger than the ambient space, check out the help:\n{DataInSubspace.__doc__}')
+    else:
+      print(f'You should pass positive integers to this function, check out the help:\n{DataInSubspace.__doc__}')
+  else:
+    print(f'You should pass numbers to this function, check out the help:\n{DataInSubspace.__doc__}')
+  return M        
+        
 def DataFromUnionOfSubspaces(d=3,D=[1,2], N=[20,200], data_scaler=1, normal_data = True):
     '''
     This function accepts d, D, N where:
