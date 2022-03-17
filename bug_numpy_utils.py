@@ -122,13 +122,17 @@ def MatPrint(M, title = 'Matrix:'):
     except:
         print(f'Is {M} really a meaningful numpy array?')
 
-def CData(M, title='Subspace Data', viewangles = (30, 45), A= None):
+def CData(*Matrices2Plot, title='Subspace Data', viewangles = (30, 45), figSize = (10,10), A= None):
     '''
     This function plots the data in M using 2D or 3D plot
     Data should be np.array
     Function does not return anything, but whines about data that cannot be plotted
     '''
-    
+    # based on the first matrix, decide wheter it is 2 or 3D or more
+    if len(Matrices2Plot) < 1:
+        print("gimme something to plot")
+        return
+    M = Matrices2Plot[0]
     if M.shape[0] == 2: # then use regular plot
         # generate figure for 3D scatter
         plt.scatter(M[0,:], M[1,:], marker='*', color='red') 
@@ -144,8 +148,9 @@ def CData(M, title='Subspace Data', viewangles = (30, 45), A= None):
         # generate figure for 3D scatter
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
-        # add data to figure
-        ax.scatter(M[0,:], M[1,:], M[2,:], c='r', marker='*')
+        for M in Matrices2Plot:
+            # add data to figure
+            ax.scatter(M[0,:], M[1,:], M[2,:]) #, c='r', marker='*')
         # add axis labels
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
@@ -159,7 +164,9 @@ def CData(M, title='Subspace Data', viewangles = (30, 45), A= None):
         ax.view_init(*viewangles)
         # show plot... on colab or jupyter you do not need the following, but while 
         # running locally, without plt.show nothing might show up
+        plt.rcParams["figure.figsize"] = figSize
         plt.show()
+
     else:
         print('CData cannot manage to make you see the data... sorry...')
 
