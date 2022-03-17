@@ -122,7 +122,7 @@ def MatPrint(M, title = 'Matrix:'):
     except:
         print(f'Is {M} really a meaningful numpy array?')
 
-def CData(M, A= None, title='Subspace Data', viewangles = (30, 45)):
+def CData(M, title='Subspace Data', viewangles = (30, 45), A= None):
     '''
     This function plots the data in M using 2D or 3D plot
     Data should be np.array
