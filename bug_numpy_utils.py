@@ -122,7 +122,69 @@ def MatPrint(M, title = 'Matrix:'):
     except:
         print(f'Is {M} really a meaningful numpy array?')
 
-def CData(*Matrices2Plot, title='Subspace Data', viewangles = (30, 45), figSize = (10,10), A= None):
+def CData(M, title='Subspace Data', NoColor3D = False):
+    '''
+    This function plots the data in M using 2D or 3D plot
+    Data should be np.array
+    Function does not return anything, but whines about data that cannot be plotted
+    Title is trivial
+    NoColor3D False obviously plots all 3D data in the same color
+    If NoColor3D is passed for a data matrix M that contains 270 data points on its columns
+    where 100, 50 and 120 of them come from 3 different subspaces respectively,
+    NoColor3D should be a list as follows:
+        NoColor3D = [100, 50, 120]
+    '''
+    if not 'plt' in locals(): # import plt
+        import matplotlib.pyplot as plt
+    if not 'go' in locals(): # import go
+        import plotly.graph_objects as go
+    
+    data2Plot = [] # start with empty list
+    # done with import checks
+    if M.shape[0] == 2: # then use regular plot
+        # generate figure for 3D scatter
+        plt.scatter(M[0,:], M[1,:], marker='*', color='red') 
+        plt.xlabel('X')
+        plt.ylabel('Y')
+        plt.title(title)
+        plt.show()
+    elif M.shape[0] == 3: # use go
+        if type(NoColor3D) is list : # color plots according to the number content in list NoColor3D
+            try:
+                # try color printing
+                # get data slice indices from NoColor3D count list
+                for i,ind in enumerate(zip([0, *list(np.cumsum(NoColor3D))], np.cumsum(NoColor3D))):  
+                    data2Plot.append(go.Scatter3d(x=M[0,ind[0]:ind[1]], 
+                                                   y=M[1,ind[0]:ind[1]], 
+                                                   z=M[2,ind[0]:ind[1]], 
+                                                   name=f'Block-{i+1}', 
+                                                   mode='markers', 
+                                                   marker=dict(size=3)))
+
+            except:
+                # number of data is most probably not given right or something else
+                # just use no color data
+                data2Plot=[go.Scatter3d(x=M[0,:], y=M[1,:], z=M[2,:], name='Plane', mode='markers', marker=dict(size=3))]
+        else: # no color                
+            data2Plot =[go.Scatter3d(x=M[0,:], y=M[1,:], z=M[2,:], name='Plane', mode='markers', marker=dict(size=3))]
+        
+        # finally add title and plot
+
+        #'''
+        #fig = go.Figure(data=[go.Scatter3d(x=M[0,:], y=M[1,:], z=M[2,:], name='Plane', mode='markers', marker=dict(size=3))])
+        fig = go.Figure(data = data2Plot)
+        fig.update_layout(title={'text':title,
+                                 'y': 0.9,
+                                 'x': 0.5,
+                                 'xanchor': 'center',
+                                 'yanchor': 'top'})
+        fig.show()
+        #'''
+    else:
+        print('CData cannot manage to make you see the data... sorry...')
+        
+        
+def CDataMatPlotLib(*Matrices2Plot, title='Subspace Data', viewangles = (30, 45), figSize = (10,10), A= None):
     '''
     This function plots the data in M using 2D or 3D plot
     Data should be np.array
