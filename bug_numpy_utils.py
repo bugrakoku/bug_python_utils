@@ -35,6 +35,8 @@ from scipy.linalg import orth
 from sklearn.preprocessing import normalize
 import plotly.express as px
 import plotly.graph_objects as go
+from skimage import io
+from skimage.filters import threshold_otsu as otsu
 
 def DebugPrint(mess, gottaPrint=False):
     '''
