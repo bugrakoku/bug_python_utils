@@ -46,7 +46,18 @@ def DebugPrint(mess, gottaPrint=False):
     if gottaPrint:
         print(mess)
 
-
+def GenerateDataforImage(img):
+    '''
+    using the given (better a black and white) image name, 
+    image is loaded and and binarized, 
+    coordinates of the black pixels are convereted into a data matrix
+    results is 2 x p where there are p pixels on the foreground
+    '''
+    img = io.imread(img, as_gray=True) # read as gray scale image
+    img = img < otsu(img) # we have the binary image
+    Yi, Xi, = np.where(img == 1)
+    indexN = np.array([Xi, -Yi])*1.0
+    return indexN
 
 def MatImshow(img,  title='Matrix as Image', showImage = True, UseMatplot = True):
     '''
