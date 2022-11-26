@@ -135,7 +135,7 @@ def MatPrint(M, title = 'Matrix:'):
     except:
         print(f'Is {M} really a meaningful numpy array?')
 
-def CData(M, title='Subspace Data', NoColor3D = False):
+def CData(M, title='Subspace Data?', NoColor3D = False):
     '''
     This function plots the data in M using 2D or 3D plot
     Data should be np.array
@@ -151,7 +151,10 @@ def CData(M, title='Subspace Data', NoColor3D = False):
         import matplotlib.pyplot as plt
     if not 'go' in locals(): # import go
         import plotly.graph_objects as go
-    
+    # title should be string
+    if type(title) is not str:
+        title = "Some plot you wanted"
+        
     data2Plot = [] # start with empty list
     # done with import checks
     if M.shape[0] == 2: # then use regular plot
