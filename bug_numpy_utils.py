@@ -162,7 +162,7 @@ def CData(M, title='Subspace Data', NoColor3D = False):
         plt.title(title)
         plt.show()
     elif M.shape[0] == 3: # use go
-        if type(NoColor3D) is list : # color plots according to the number content in list NoColor3D
+        if type(NoColor3D) is list or type(NoColor3D) is np.ndarray: # color plots according to the number content in list NoColor3D
             try:
                 # try color printing
                 # get data slice indices from NoColor3D count list
