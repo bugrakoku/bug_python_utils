@@ -1,3 +1,8 @@
+import numpy as np
+from scipy.linalg import orth
+from numpy.linalg import matrix_rank as rank
+from numpy.linalg import svd
+from math import pi, cos, sin
 
 def GetARoom(nWalls=4, h = 300, Rmin =3000, Rmax = 10000, noiseMultiplier = 0, outlierPercent = 0.0, addBottom = False, addTop = False, randomizeWalls=False, shuffleColumns = False, rotateRoom = False):
     '''
