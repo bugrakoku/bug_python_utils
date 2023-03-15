@@ -11,6 +11,8 @@ def MatrixVectorPlot(M,v):
     no error check yet, use responsibly to avoid crash
     plots v and Mv to illustrate the difference
     '''
+    if v.shape == (2,1):
+        v = v.T
     r = M @ v # resultant vector
     
     plt.arrow(0,0, v[0], v[1], head_width=0.1, fc='g', ec='g')
