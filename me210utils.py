@@ -24,7 +24,7 @@ def MatrixVectorPlot(M,v):
     plt.title(f'angle between v and r = {round(theta,2)}')
     plt.rcParams["figure.figsize"] = (10,10)
 
-def UnitSquareDeformation(M):
+def UnitSquareTransformation(M):
     '''
     accepts a 2x2 matrix M, and displays how it deforms a unit square
     no error check yet, use responsibly to avoid crash
