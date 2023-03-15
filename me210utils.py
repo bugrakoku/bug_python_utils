@@ -37,6 +37,8 @@ def UnitSquareTransformation(M):
     res3 = np.vstack([res, np.array([0,0,0,0,0])]) # in order to be able to perform cross product, add a third dimension
 
     # just plot the original unit square and its transformed version
+    ax = plt.gca()
+    ax.set_aspect('equal', 'box')
     plt.plot(us[0,:], us[1,:]) # unit squres
     plt.plot(res[0,:], res[1,:]) # transformed square
     
