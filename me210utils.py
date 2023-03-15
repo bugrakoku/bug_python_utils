@@ -48,4 +48,5 @@ def UnitSquareTransformation(M):
     plt.legend(['unit square', 'transformed square','[1,0] transforms', '[1,1] transforms', '[0,1] transforms'])
     area = np.linalg.norm(np.cross(res3[:,1], res3[:,3])) # make sure you get why this is the area!
     plt.title(f'transfomed square area = {area}\n |M|={np.linalg.det(M)}')
+    plt.rcParams["figure.figsize"] = (10,10)
     
