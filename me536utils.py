@@ -1,3 +1,9 @@
+import numpy as np
+from numpy import cos, sin, pi, round
+from numpy.linalg import inv
+from numpy.linalg import matrix_rank as rank
+
+
 def RotMat3D(angle, around='x'):
     '''
     Returns a rotation matrix
