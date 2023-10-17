@@ -29,7 +29,7 @@ def Circle_3D(r=1, C=[0,0,0], N=100, n=0):
   # just to tease the in-class assignment, I will return it in a single line, which is not good python programming though!!!
   return np.array([[r*cos(theta), r*sin(theta), 0] for theta in np.linspace(-pi,pi,N)] + np.random.rand(N,3)*n + np.array(C)).T
 
-def Square(M, N=100):
+def Square(M = [1,1], N=100):
   '''
   Generate N many random points on a square where
   Each side should have N/4 points randomly locatd on that side
