@@ -37,6 +37,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 from skimage import io
 from skimage.filters import threshold_otsu as otsu
+from PIL import Image, ImageDraw, ImageFont
+
 
 def DebugPrint(mess, gottaPrint=False):
     '''
@@ -326,3 +328,53 @@ def DataFromUnionOfSubspaces(d=3,D=[1,2], N=[20,200], data_scaler=1, normal_data
     M is 5x500 (200 points in the first 2D subspace, and 300 in the second)
     '''
     pass
+
+def text2mat(txt, fspace = 30, fontW = 21, fontName = '/usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf'):
+    '''
+    converts the passed txt string into a data matrix, which when plotted displays the text
+    Usage:
+        dm, numData = text2mat(txt, fspace, fontW, fontSize, fontName)
+    Input:    
+        txt: string to be converted to data matrix, data in the matrix lies on the XY plane in 3D
+        fspace: size of space character in pixels, defaults to 30
+        fontW: width of a font window in pixels, defaults to 21
+        fontName: name of the font to be used, if default does not work, provide the full path of a ttf file
+    Returns:
+        dm: data matrix that contains the points that spell the given text on XY plane
+        numData: return the number of data points for each letter in txt
+    '''
+    def char2mat(c, fontname, fontsize):
+        # converts character c into a 2D matrix
+        BackColor = (255,255, 255)
+        LPos = (1,1) # character default position
+        LSize = (20,30) # size of the image that will hold the
+        font = ImageFont.truetype(fontname, fontsize) # font instace created
+
+        img = Image.new('RGB', LSize, BackColor ) # blank image
+        imgPen = ImageDraw.Draw(img) # pen to draw on the blank image
+
+        imgPen.text(LPos, c, font=font, fill=(0,0,0)) # write the character to blank image
+
+        img.save('c.png') # save image
+        imat = GenImMat('c.png') # convert image to 2D matrix
+        return imat, imat.shape[1] # return 2D image and the number of data points on it
+    
+    fontSize = 30 # default image size
+    all = [] # data points that correspond to the text in txt
+    allw = [] # number of data points in each character in txt
+    fhead = 0 # location of the current character in data matrix along X axis
+    for t in txt: # convert all characters to data points
+        c,n = char2mat(t, fontName, fontSize) # get the next character
+        if n > 0: # if c is space, we will leave space but do not add data points
+            if isinstance(all, list): # at first convert all to numpy array
+                all = c # first instance
+            else:
+                c[0,:] += fhead 
+                all = np.hstack((all,c)) # append the data points for the current letter
+            allw.append(n) # append the number of data points for the current character
+            fhead += fontW
+        else:
+            fhead += fspace
+    
+    # finally return 3D matrix with all z-coordinates being 0 along with the number of data in each cluster
+    return np.vstack((all, np.zeros(all.shape[1]))), allw
