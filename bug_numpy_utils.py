@@ -356,7 +356,7 @@ def text2mat(txt, fspace = 30, fontW = 21, fontName = '/usr/share/fonts/truetype
         imgPen.text(LPos, c, font=font, fill=(0,0,0)) # write the character to blank image
 
         img.save('c.png') # save image
-        imat = GenImMat('c.png') # convert image to 2D matrix
+        imat = GenerateDataforImage('c.png') # convert image to 2D matrix
         return imat, imat.shape[1] # return 2D image and the number of data points on it
     
     fontSize = 30 # default image size
