@@ -378,3 +378,33 @@ def text2mat(txt, fspace = 30, fontW = 21, fontName = '/usr/share/fonts/truetype
     
     # finally return 3D matrix with all z-coordinates being 0 along with the number of data in each cluster
     return np.vstack((all, np.zeros(all.shape[1]))), allw
+
+
+
+def DrawOnImage(img, coord, box=False, diagonals = True, dpen = (255,0,0)):
+    '''
+    This funciton takes an image, and a coordinate pair in the form of ((y1,x1), (y2,x2))
+    These two points can either belown to the two ends of a line, 
+    or the two opposite corners of a box
+    if box = False, a line is drawn between these two points,
+    else a box with its diagonals are drawn. So that you do not need to worry about the center of it
+    if you do not want the diagonal, make it False
+    The final parameter is the pen to draw with, by default lines will be RED
+    everything is drawn on a copy of the image sent, and this copy is returned
+    '''
+    # create a copy of the image
+    img_new = img.copy()
+    P1, P2 = coord # get the points out of the coordinates list
+    # assume that line or box extends from P1(y1,x1) to P2(y2,x2), note that y preceeds x to be consistent with matrix indexing convention
+    maxNP = max(( abs(P2[0]-P1[0]) , abs(P2[1]-P1[1])))
+    if box: # then draw a box 
+        img_new[P1[0], P1[1]:P2[1], :] = dpen
+        img_new[P1[0]:P2[0], P2[1], :] = dpen
+        img_new[P2[0], P1[1]:P2[1], :] = dpen
+        img_new[P1[0]:P2[0], P1[1], :] = dpen
+        if diagonals:
+            img_new[ np.linspace(P1[0],P2[0], maxNP).astype('int'), np.linspace(P1[1],P2[1], maxNP).astype('int'), :] = dpen
+            img_new[ np.linspace(P2[0],P1[0], maxNP).astype('int'), np.linspace(P1[1],P2[1], maxNP).astype('int'), :] = dpen
+    else: # draw a line
+        img_new[ np.linspace(P1[0],P2[0], maxNP).astype('int'), np.linspace(P1[1],P2[1], maxNP).astype('int'), :] = dpen
+    return img_new
